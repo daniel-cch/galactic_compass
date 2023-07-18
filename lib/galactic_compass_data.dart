@@ -23,8 +23,7 @@ extension ToRadians on GalacticCompassData {
 
 /// Function converts degree to radians
 double _degreeToRadian(double degree) {
-  final radians = degree * math.pi / 180;
-  final asString = radians.toStringAsFixed(2);
+  final radians = ((degree * math.pi / 180) * 100).round() / 100;
 
-  return double.parse(asString);
+  return radians;
 }
