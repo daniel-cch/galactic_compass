@@ -24,9 +24,11 @@ class HomePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Angle radians: ${snapshot.data?.angle ?? 0.0}'),
                   Text(
-                    'Angle degree: ${snapshot.data?.toDegrees().angle ?? 0.0}',
+                    'Angle degree: ${snapshot.data?.angle ?? 0.0}',
+                  ),
+                  Text(
+                    'Angle radians: ${snapshot.data?.toRadians().angle ?? 0.0}',
                   ),
                 ],
               );

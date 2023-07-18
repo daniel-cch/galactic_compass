@@ -1,35 +1,45 @@
 package com.danielcch.galactic_compass
 
-import androidx.annotation.NonNull
-
+import android.content.Context
+import android.hardware.SensorManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** GalacticCompassPlugin */
+/**
+ * Class [GalacticCompassPlugin] handles native code and sends information con event channel to dart
+ */
 class GalacticCompassPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private lateinit var channel : MethodChannel
+  private lateinit var orientationChannel : EventChannel
+  private lateinit var sensorHandler: SensorHandler
+  private lateinit var sensorManager: SensorManager
+  private var orientationChannelName: String = "com.danielcch.galactic_compass.orientation"
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "galactic_compass")
-    channel.setMethodCallHandler(this)
+  /**
+   * When called sets [SensorManager], creates [EventChannel] and [SensorHandler]
+   */
+  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    sensorManager = flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+    orientationChannel = EventChannel(flutterPluginBinding.binaryMessenger, orientationChannelName)
+    sensorHandler = SensorHandler(sensorManager)
+    orientationChannel.setStreamHandler(sensorHandler)
   }
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
-    }
+  /**
+   * Maps calls to specific functionality
+   */
+  override fun onMethodCall(call: MethodCall, result: Result) {
   }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
+  /**
+   * Disposes channel and sensor handler
+   */
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    orientationChannel.setStreamHandler(null)
+    sensorHandler.onCancel(null)
   }
 }

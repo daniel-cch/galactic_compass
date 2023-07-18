@@ -12,16 +12,19 @@ class GalacticCompassData {
   final double angle;
 }
 
-/// Extension on [GalacticCompassData] to get data in degrees
-extension ToDegree on GalacticCompassData {
-  GalacticCompassData toDegrees() {
+/// Extension on [GalacticCompassData] to get data in radians
+extension ToRadians on GalacticCompassData {
+  GalacticCompassData toRadians() {
     return GalacticCompassData(
       angle: _degreeToRadian(angle),
     );
   }
 }
 
-/// Function converts radians to degrees
+/// Function converts degree to radians
 double _degreeToRadian(double degree) {
-  return degree * math.pi / 180;
+  final radians = degree * math.pi / 180;
+  final asString = radians.toStringAsFixed(2);
+
+  return double.parse(asString);
 }
