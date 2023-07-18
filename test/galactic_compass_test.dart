@@ -4,20 +4,20 @@ import 'package:galactic_compass/galactic_compass.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('galactic_compass');
+  const EventChannel eventChannel = EventChannel(
+    'com.danielcch.galactic_compass.orientation',
+  );
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
-    });
+    eventChannel.binaryMessenger.setMockMessageHandler(
+      'channel',
+      (message) async => null,
+    );
   });
 
-  tearDown(() {
-    channel.setMockMethodCallHandler(null);
-  });
-
-  test('getPlatformVersion', () async {
-    expect(await GalacticCompass.platformVersion, '42');
+  test('getOrientation', () async {
+    expect(GalacticCompass.getOrientation(), isA<Stream>);
   });
 }

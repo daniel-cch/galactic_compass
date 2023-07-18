@@ -1,13 +1,12 @@
+import 'package:galactic_compass/galactic_compass_data.dart';
+import 'package:galactic_compass/galactic_compass_platform_interface.dart';
 
-import 'dart:async';
+export 'galactic_compass_data.dart';
 
-import 'package:flutter/services.dart';
-
+/// Class to access Compass platform implementations
 class GalacticCompass {
-  static const MethodChannel _channel = MethodChannel('galactic_compass');
-
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  /// Gets stream of [GalacticCompassData] from native Android and iOS implementation
+  static Stream<GalacticCompassData> getOrientation() {
+    return GalacticCompassPlatform.instance.getOrientation();
   }
 }
