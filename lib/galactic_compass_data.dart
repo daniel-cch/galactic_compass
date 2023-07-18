@@ -13,7 +13,7 @@ class GalacticCompassData {
 }
 
 /// Extension on [GalacticCompassData] to get data in degrees
-extension NumberParsing on GalacticCompassData {
+extension ToDegree on GalacticCompassData {
   GalacticCompassData toDegrees() {
     return GalacticCompassData(
       angle: _degreeToRadian(angle),
