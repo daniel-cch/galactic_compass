@@ -11,7 +11,7 @@ public class SwiftGalacticCompassPlugin: NSObject, FlutterPlugin {
         let orientationChannel = FlutterEventChannel(name: "com.danielcch.galactic_compass.orientation", binaryMessenger: registrar.messenger())
         orientationChannel.setStreamHandler(sensorHandler)
 
-        let instance = FlCompassPlugin()
+        let instance = SwiftGalacticCompassPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
