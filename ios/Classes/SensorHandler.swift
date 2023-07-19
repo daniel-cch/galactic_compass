@@ -22,6 +22,7 @@ class SensorHandler: NSObject, FlutterStreamHandler, CLLocationManagerDelegate {
 
         if(CLLocationManager.headingAvailable()) {
             locationManager.startUpdatingHeading()
+            return nil
         }
 
         return FlutterError(code: "NO_SENSOR", message: "Sensor not found", details: "Device don't have required sensor")
