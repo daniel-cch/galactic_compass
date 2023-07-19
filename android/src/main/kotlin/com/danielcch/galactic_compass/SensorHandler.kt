@@ -36,7 +36,7 @@ class SensorHandler(
         sensorManager.registerListener(
             sensorEventListener,
             sensor,
-            SensorManager.SENSOR_DELAY_NORMAL
+            SensorManager.SENSOR_DELAY_FASTEST
         )
     }
 
